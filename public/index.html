@@ -4,18 +4,31 @@
     <meta charset="utf-8" />
     <style>
       .canvas{
-        display:block;
-        margin:0px;
+        display: block;
+        margin: 0px;
+        position: relative;     
       }
       body{
-        display:block;
-        margin:0px;
+        display: block;
+        margin: 0px;
       }
+      .input{
+        width: 200px;
+        left: calc(50% - 100px);
+        top: 85%;
+        margin: auto;
+        position: absolute;
+      }
+
 
     </style>
   </head>
   <body>
-    <div id="canvas" class="canvas"></div>
+    <div id="canvas" class="canvas">
+      <!-- <form onsubmit="submit(); return false" name="player_guess"> -->
+        <input type="text" id="word" name="word" class="input">
+      <!-- </form> -->
+    </div>
     <script src="words.js"></script>
     <script src="./p5/p5.js"></script>
     <!-- <script src="./index.js"></script> -->
