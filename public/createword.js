@@ -1,4 +1,5 @@
 var randomword
+var randomchar
 var word_length = 3
 function createWords(word_length = 2 ){
     let randomword = ""
