@@ -124,6 +124,7 @@ function handleMessage(client, msg){
 function getGameData(client){
   let room = rooms[client.room_id]
   let gameData = room.game.getGameData()
+  gameData.room_id = room.id
   return(gameData)
 }
 
@@ -259,7 +260,6 @@ class Game{
       }
     })
     data.hint = this.hint
-    // data.room_id = this.
     return data
   }
   guess(client, word){
