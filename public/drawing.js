@@ -7,30 +7,37 @@ var timer = 0
 var gameData = {
   players: {
     id1: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id2: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id3: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id4: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id5: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id6: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     },
     id7: {
+      name: "tempname",
       hearts: 3,
       status: "Active"
     }
@@ -78,8 +85,8 @@ function draw(){
 
   else{
   fill("#1E3C00")
-
-  rect(xmid, ymid, (width*height)**(1/2)/5, (width*height)**(1/2)/5)
+  let size = 128*1.5
+  rect(xmid, ymid, size, size)
   
   fill(0)
   textSize(128)
@@ -109,16 +116,18 @@ function drawPlayers(){
     let angle = (360/currentPlayers) * i
     let x = xmid + sin(angle) * circleDist
     let y = ymid + cos(angle) * circleDist
-
+    const playerList = Object.keys( gameData["players"] )
     fill("#414042")
     circle(x, y, size*1.5)
     fill("#231F20")
     rect(x, y, size, size)
-
     image(players[i], x, y, size, size)
-    const playerList = Object.keys( gameData["players"] )
+    fill(255)
+    textSize(25) 
+    text(gameData["players"][playerList[i]]["name"], x, y-size/1.65, size, size)
+    
     for(let h=0; h < gameData["players"][playerList[i]]["hearts"]; h++){ // draw Hearts
-      image(heart, x + (-20+20*h), y-size/1.5+size, 50, 50)
+      image(heart, x + (-20+20*h), y+size/1.65, 50, 50)
     }      
   }
 }
@@ -131,12 +140,10 @@ function menu(){
   button.position(width/2, height/2)
   button.size(width/4, height/10)
   button.mousePressed(changeBG)
-  console.log("Game on")
   }
 }
 function changeBG(){
   game = "on"
-  console.log("Yes")
   button.remove()
 
 }
@@ -157,11 +164,6 @@ function drawClock(){
   strokeWeight(8)
   line(cx, cy, x, y)
 
-  if(millis() > timer_) {
-    timer_ ++
-    timer ++
-    
-  }
 }
 
 
@@ -170,6 +172,6 @@ window.onresize = ()=>{
     resizeCanvas(windowWidth, windowHeight);
     xmid = width/2
     ymid = height/2
-  }, 10)
+  }, 1)
 
 }
