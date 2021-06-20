@@ -2,6 +2,7 @@ var heart
 var input
 var xmid
 var ymid
+var game = "off"
 var timer = 0
 var gameData = {
   players: {
@@ -20,16 +21,28 @@ var gameData = {
     id4: {
       hearts: 3,
       status: "Active"
+    },
+    id5: {
+      hearts: 3,
+      status: "Active"
+    },
+    id6: {
+      hearts: 3,
+      status: "Active"
+    },
+    id7: {
+      hearts: 3,
+      status: "Active"
     }
   },
-  playerId: ["id1","id2","id3","id4"],
   timer: 10,
   round: 0,
-  totalPlayers: 4
+  totalPlayers: 7,
+  roundTime: 10
 }
 
 var temp_hearts
-const playerImg = [device, kennys, simple, stefan, konfig, greta].reverse()
+const playerImg = [device, kennys, simple, stefan, konfig, greta, putin]
 var players = []
 function preload(){
   heart = createImg('https://i.imgur.com/X81l5ZC.png', 'heart')
@@ -58,9 +71,14 @@ function setup(){
 }
 
 function draw(){
-  
-  fill("blue")
   background(25)
+  if (game == "off"){
+    menu()
+  }
+
+  else{
+  fill("#1E3C00")
+
   rect(xmid, ymid, (width*height)**(1/2)/5, (width*height)**(1/2)/5)
   
   fill(0)
@@ -73,8 +91,10 @@ function draw(){
   
   fill(255)
   textAlign(LEFT, TOP)
-  text(timer, 310, 10)
+  //text(timer, 310, 10)
+  
   drawClock()
+  }
 }
 
 function drawPlayers(){
@@ -89,16 +109,39 @@ function drawPlayers(){
     let angle = (360/currentPlayers) * i
     let x = xmid + sin(angle) * circleDist
     let y = ymid + cos(angle) * circleDist
-    // rect(x, y, size, size)
+
+    fill("#414042")
+    circle(x, y, size*1.5)
+    fill("#231F20")
+    rect(x, y, size, size)
+
     image(players[i], x, y, size, size)
     const playerList = Object.keys( gameData["players"] )
     for(let h=0; h < gameData["players"][playerList[i]]["hearts"]; h++){ // draw Hearts
-      image(heart, x + (-20+20*h), y-150, 50, 50)
+      image(heart, x + (-20+20*h), y-size/1.5+size, 50, 50)
     }      
   }
 }
-var timer_ = 0
 
+var button
+function menu(){
+  //Button
+  if (!button){
+  button = createButton("Ready")
+  button.position(width/2, height/2)
+  button.size(width/4, height/10)
+  button.mousePressed(changeBG)
+  console.log("Game on")
+  }
+}
+function changeBG(){
+  game = "on"
+  console.log("Yes")
+  button.remove()
+
+}
+
+var timer_ = 0
 function drawClock(){
   let angle = (360/1000) * timer
   let size = 210
@@ -107,6 +150,7 @@ function drawClock(){
   let len = size/3
   let x = (cx + cos(angle-90) * len)
   let y = (cy + sin(angle-90) * len)
+
   fill(255)
   circle(cx, cy, size)
   image(clock, cx, cy, size, size)
@@ -121,9 +165,11 @@ function drawClock(){
 }
 
 
-function drawGuesses() {}
 window.onresize = ()=>{
-  resizeCanvas(windowWidth, windowHeight);
-  xmid = width/2
-  ymid = height/2
+  setTimeout(()=>{
+    resizeCanvas(windowWidth, windowHeight);
+    xmid = width/2
+    ymid = height/2
+  }, 10)
+
 }
