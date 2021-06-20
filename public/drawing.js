@@ -4,49 +4,44 @@ var xmid
 var ymid
 var game = "off"
 var timer = 0
-var gameData = {
-  players: {
-    id1: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id2: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id3: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id4: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id5: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id6: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    },
-    id7: {
-      name: "tempname",
-      hearts: 3,
-      status: "Active"
-    }
-  },
-  timer: 10,
-  round: 0,
-  totalPlayers: 7,
-  roundTime: 10
-}
+var hint
+var gameData
+// var gameData = {
+//   players: {
+//     id1: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id2: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id3: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id4: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id5: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id6: {
+//       hearts: 3,
+//       status: "Active"
+//     },
+//     id7: {
+//       hearts: 3,
+//       status: "Active"
+//     }
+//   },
+//   timer: 10,
+//   round: 0,
+//   totalPlayers: 7,
+//   roundTime: 10
+// }
 
 var temp_hearts
 const playerImg = [device, kennys, simple, stefan, konfig, greta, putin]
@@ -85,13 +80,14 @@ function draw(){
 
   else{
   fill("#1E3C00")
-  let size = 128*1.5
-  rect(xmid, ymid, size, size)
+
+  rect(xmid, ymid, (width*height)**(1/2)/5, (width*height)**(1/2)/5)
   
   fill(0)
   textSize(128)
   textAlign(CENTER, CENTER)
-  text(randomchar, width/2, height/2)
+  // text(randomchar, width/2, height/2)
+  text(gameData.hint, width/2, height/2)
 
   fill(10)
   drawPlayers()
@@ -108,7 +104,7 @@ function drawPlayers(){
   imageMode(CENTER)
   angleMode(DEGREES)
   rectMode(CENTER)
-  let currentPlayers = gameData["totalPlayers"]
+  let currentPlayers = Object.keys(gameData?.players||[]).length
   let size = ymid/3
   let circleDist = size*2
 
@@ -116,18 +112,23 @@ function drawPlayers(){
     let angle = (360/currentPlayers) * i
     let x = xmid + sin(angle) * circleDist
     let y = ymid + cos(angle) * circleDist
-    const playerList = Object.keys( gameData["players"] )
+
     fill("#414042")
     circle(x, y, size*1.5)
     fill("#231F20")
     rect(x, y, size, size)
+
     image(players[i], x, y, size, size)
+
     fill(255)
-    textSize(25) 
-    text(gameData["players"][playerList[i]]["name"], x, y-size/1.65, size, size)
-    
-    for(let h=0; h < gameData["players"][playerList[i]]["hearts"]; h++){ // draw Hearts
-      image(heart, x + (-20+20*h), y+size/1.65, 50, 50)
+    textSize(25)
+    let playerList = gameData.players
+    let player = playerList[i]
+    text(player.name, x, y-size/1.65, size, size)
+    text(player.points, x, y+size/1.65, size, size)
+
+    for(let h=0; h < 3; h++){ // draw Hearts
+      image(heart, x + (-20+20*h), y-size/1.5+size, 50, 50)
     }      
   }
 }
@@ -140,11 +141,14 @@ function menu(){
   button.position(width/2, height/2)
   button.size(width/4, height/10)
   button.mousePressed(changeBG)
+  console.log("Game on")
   }
 }
 function changeBG(){
   game = "on"
+  console.log("Yes")
   button.remove()
+  send("startGame", "hello men")
 
 }
 
@@ -164,6 +168,11 @@ function drawClock(){
   strokeWeight(8)
   line(cx, cy, x, y)
 
+  if(millis() > timer_) {
+    timer_ ++
+    timer ++
+    
+  }
 }
 
 
@@ -172,6 +181,6 @@ window.onresize = ()=>{
     resizeCanvas(windowWidth, windowHeight);
     xmid = width/2
     ymid = height/2
-  }, 1)
+  }, 10)
 
 }
