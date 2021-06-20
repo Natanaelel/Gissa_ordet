@@ -184,3 +184,21 @@ window.onresize = ()=>{
   }, 10)
 
 }
+
+
+
+
+function submit(player_guess){
+    console.log(player_guess)
+    send("playerGuess", player_guess)
+}
+
+input = document.getElementById("word")
+
+input.addEventListener("keyup",e=>{
+    if (e.keyCode == 13) {
+        e.preventDefault()
+        submit(input.value)
+        input.value = null
+    }
+})
