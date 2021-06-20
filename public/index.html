@@ -15,8 +15,8 @@
       .input{
         width: 200px;
         height: 25px;
-        left: 80%;
-        top: 90%;
+        left: calc(50% - 100px);
+        top: 65%;
         margin: auto;
         position: absolute;
       }
@@ -26,9 +26,7 @@
   </head>
   <body>
     <div id="canvas" class="canvas">
-      <!-- <form onsubmit="submit(); return false" name="player_guess"> -->
-        <input type="text" id="word" name="word" class="input" autocomplete="off">
-      <!-- </form> -->
+      <input type="text" id="word" name="word" class="input" autocomplete="off">
     </div>
     <script src="temp_assets.js"></script>
     <script src="words.js"></script>
