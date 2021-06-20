@@ -2,7 +2,7 @@ var heart
 var input
 var xmid
 var ymid
-var timer = 10
+var timer = 0
 var gameData = {
   players: {
     id1: {
@@ -29,15 +29,19 @@ var gameData = {
 }
 
 var temp_hearts
-const playerImg = [device, kennys, simple, stefan, konfig, greta_].reverse()
+const playerImg = [device, kennys, simple, stefan, konfig, greta].reverse()
 var players = []
 function preload(){
   heart = createImg('https://i.imgur.com/X81l5ZC.png', 'heart')
   heart.hide()
+
   for(i=0; i<playerImg.length; i++){
     players.push(createImg(playerImg[i],`player${i}`))
     players[i].hide()
   }
+
+  clock = createImg(clockImg, "clock")
+  clock.hide()
 }
 
 function setup(){
@@ -49,6 +53,7 @@ function setup(){
   rectMode(CENTER)
   xmid = width/2
   ymid = height/2
+  timeNow = 1000
   
 }
 
@@ -68,30 +73,55 @@ function draw(){
   
   fill(255)
   textAlign(LEFT, TOP)
-  text(timer, 10, 10)
+  text(timer, 310, 10)
+  drawClock()
 }
 
 function drawPlayers(){
+  imageMode(CENTER)
+  angleMode(DEGREES)
+  rectMode(CENTER)
   let currentPlayers = gameData["totalPlayers"]
-  let circleRad = 225
-  let circleDist = circleRad*2
+  let size = ymid/3
+  let circleDist = size*2
 
   for(let i=0; i< currentPlayers; i++){ // draw Players
     let angle = (360/currentPlayers) * i
     let x = xmid + sin(angle) * circleDist
     let y = ymid + cos(angle) * circleDist
-    // rect(x, y, circleRad, circleRad)
-    image(players[i], x, y, circleRad, circleRad)
+    // rect(x, y, size, size)
+    image(players[i], x, y, size, size)
     const playerList = Object.keys( gameData["players"] )
     for(let h=0; h < gameData["players"][playerList[i]]["hearts"]; h++){ // draw Hearts
       image(heart, x + (-20+20*h), y-150, 50, 50)
     }      
   }
 }
+var timer_ = 0
+
+function drawClock(){
+  let angle = (360/1000) * timer
+  let size = 210
+  let cx = size/2+20
+  let cy = size/2+20
+  let len = size/3
+  let x = (cx + cos(angle-90) * len)
+  let y = (cy + sin(angle-90) * len)
+  fill(255)
+  circle(cx, cy, size)
+  image(clock, cx, cy, size, size)
+  strokeWeight(8)
+  line(cx, cy, x, y)
+
+  if(millis() > timer_) {
+    timer_ ++
+    timer ++
+    
+  }
+}
+
 
 function drawGuesses() {}
-
-// +(-10+10*0)
 window.onresize = ()=>{
   resizeCanvas(windowWidth, windowHeight);
   xmid = width/2
