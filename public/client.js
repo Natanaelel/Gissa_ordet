@@ -33,7 +33,7 @@ function send(method, data) {
     if (ws.readyState == 1) {
         ws.send(JSON.stringify(payLoad))
     } else {
-        console.log("disconnected form server!")
+        console.log("disconnected from server!")
     }
 }
 

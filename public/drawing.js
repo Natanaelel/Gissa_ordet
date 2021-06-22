@@ -12,8 +12,10 @@ var temp_hearts
 const playerImg = [device, kennys, simple, stefan, konfig, greta, putin]
 var players = []
 
-var input = document.getElementById("word")
-var form = document.getElementById("loginform")
+getID = id => document.getElementById(id)
+var input = getID("word")
+var form = getID("loginform")
+var logo = getID("logoimage")
 
 function preload(){
   heart = createImg('https://i.imgur.com/X81l5ZC.png', 'heart')
@@ -44,7 +46,7 @@ function setup(){
 function draw(){
   if (!gameActive)return
   background(25)
-  fill("#1E3C00")
+  fill("#080")
 
   rect(xmid, ymid, (width*height)**(1/2)/5, (width*height)**(1/2)/5)
 
@@ -144,8 +146,9 @@ input.addEventListener("keyup",e=>{
 function formSubmit(){
   form.style.display = "none"
   input.style.display = "block"
+  logo.style.display = "none"
   gameActive = true
-  loginform = index => document.getElementById("loginform").elements[index].value
+  loginform = index => getID("loginform").elements[index].value
   let name = loginform(0).slice(0,1000)
   let room_id = loginform(1).slice(0,1000)
   send("connect", {
