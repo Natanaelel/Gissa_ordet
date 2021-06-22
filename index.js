@@ -92,7 +92,7 @@ function handleMessage(client, msg){
         room: "room_id"
       }
     */
-    client.name = data.name
+    client.name = data.name.replace(/(\r\n|\n|\r)/gm, "")
     client.room_id = data.room_id
     joinRoom(client, data.room_id)
     // broadcast("text", `${client.name} connected`, client.id)
@@ -149,6 +149,7 @@ function joinRoom(client, room_id){
     console.log("created a new Room")
     room = new Room(room_id)
     rooms[room_id] = room
+    room.game.startGame()
   }else{
     console.log("joined existing room")
   }
@@ -302,9 +303,11 @@ class Game{
       points: 0,
       playing: true
     }
+    this.broadcast("gameData", this.getGameData())
   }
   leave(client){
     delete this.players[client.id]
+    this.broadcast("gameData", this.getGameData())
   }
   startGame(){
     this.startRound()

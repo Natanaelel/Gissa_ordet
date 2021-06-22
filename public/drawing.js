@@ -8,6 +8,8 @@ var hint
 var gameData
 var gameActive = false
 
+var guesses = []
+
 var temp_hearts
 const playerImg = [device, kennys, simple, stefan, konfig, greta, putin]
 var players = []
@@ -95,7 +97,16 @@ function drawPlayers(){
 
     for(let h=0; h < 3; h++){ // draw Hearts
       image(heart, x + (-20+20*h), y-size/1.5+size, 50, 50)
-    }      
+    }
+    if(guesses.length) drawGuess();
+  }
+}
+
+function drawGuess(){
+  fill("red")
+  textSize(25)
+  for(let g = 0; g<guesses.length; g++){
+    text(guesses[g], width, height, 50, 50)
   }
 }
 
@@ -131,7 +142,7 @@ window.onresize = ()=>{
 }
 
 function submit(player_guess){
-    console.log(player_guess)
+    guesses.push(player_guess)
     send("playerGuess", player_guess)
 }
 
@@ -144,12 +155,18 @@ input.addEventListener("keyup",e=>{
 })
 
 function formSubmit(){
+  let menu = getID("menu")
+  let game = getID("game")
+
+  menu.style.display = "none"
+  game.style.display = "block"
+
   form.style.display = "none"
   input.style.display = "block"
   logo.style.display = "none"
   gameActive = true
   loginform = index => getID("loginform").elements[index].value
-  let name = loginform(0).slice(0,1000)
+  let name = loginform(0).slice(0,1000) || unnamed()
   let room_id = loginform(1).slice(0,1000)
   send("connect", {
     name: name,
