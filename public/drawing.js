@@ -2,50 +2,19 @@ var heart
 var input
 var xmid
 var ymid
-var game = "off"
+
 var timer = 0
 var hint
 var gameData
-// var gameData = {
-//   players: {
-//     id1: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id2: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id3: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id4: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id5: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id6: {
-//       hearts: 3,
-//       status: "Active"
-//     },
-//     id7: {
-//       hearts: 3,
-//       status: "Active"
-//     }
-//   },
-//   timer: 10,
-//   round: 0,
-//   totalPlayers: 7,
-//   roundTime: 10
-// }
+var gameActive = false
 
 var temp_hearts
 const playerImg = [device, kennys, simple, stefan, konfig, greta, putin]
 var players = []
+
+var input = document.getElementById("word")
+var form = document.getElementById("loginform")
+
 function preload(){
   heart = createImg('https://i.imgur.com/X81l5ZC.png', 'heart')
   heart.hide()
@@ -69,25 +38,20 @@ function setup(){
   xmid = width/2
   ymid = height/2
   timeNow = 1000
-  
+  input.style.display = "none"
 }
 
 function draw(){
+  if (!gameActive)return
   background(25)
-  if (game == "off"){
-    menu()
-  }
-
-  else{
   fill("#1E3C00")
 
   rect(xmid, ymid, (width*height)**(1/2)/5, (width*height)**(1/2)/5)
-  
+
   fill(0)
   textSize(128)
   textAlign(CENTER, CENTER)
-  // text(randomchar, width/2, height/2)
-  text(gameData.hint, width/2, height/2)
+  text(gameData?.hint || "", width/2, height/2)
 
   fill(10)
   drawPlayers()
@@ -97,8 +61,8 @@ function draw(){
   //text(timer, 310, 10)
   
   drawClock()
-  }
 }
+
 
 function drawPlayers(){
   imageMode(CENTER)
@@ -133,25 +97,6 @@ function drawPlayers(){
   }
 }
 
-var button
-function menu(){
-  //Button
-  if (!button){
-  button = createButton("Ready")
-  button.position(width/2, height/2)
-  button.size(width/4, height/10)
-  button.mousePressed(changeBG)
-  console.log("Game on")
-  }
-}
-function changeBG(){
-  game = "on"
-  console.log("Yes")
-  button.remove()
-  send("startGame", "hello men")
-
-}
-
 var timer_ = 0
 function drawClock(){
   let angle = (360/1000) * timer
@@ -175,25 +120,18 @@ function drawClock(){
   }
 }
 
-
 window.onresize = ()=>{
   setTimeout(()=>{
     resizeCanvas(windowWidth, windowHeight);
     xmid = width/2
     ymid = height/2
   }, 10)
-
 }
-
-
-
 
 function submit(player_guess){
     console.log(player_guess)
     send("playerGuess", player_guess)
 }
-
-input = document.getElementById("word")
 
 input.addEventListener("keyup",e=>{
     if (e.keyCode == 13) {
@@ -202,3 +140,16 @@ input.addEventListener("keyup",e=>{
         input.value = null
     }
 })
+
+function formSubmit(){
+  form.style.display = "none"
+  input.style.display = "block"
+  gameActive = true
+  loginform = index => document.getElementById("loginform").elements[index].value
+  let name = loginform(0).slice(0,1000)
+  let room_id = loginform(1).slice(0,1000)
+  send("connect", {
+    name: name,
+    room_id: room_id
+})
+}

@@ -26,6 +26,13 @@
   </head>
   <body>
     <div id="canvas" class="canvas">
+      <form method="#" id="loginform" name="loginform" method="get" style="text-align:center" onsubmit="formSubmit(); return false">
+        <label for="name">Nickname</label><br>
+        <input type="text" name="name" id="name"><br>
+        <label for="roomid">RoomID</label><br>
+        <input type="text" name="roomid" id="roomid"><br><br>
+        <input type="submit" value="Ready"><br>
+      </form>
       <input type="text" id="word" name="word" class="input" autocomplete="off">
     </div>
     <script src="temp_assets.js"></script>

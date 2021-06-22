@@ -1,7 +1,6 @@
-let serverAdress = "585f55e08f51.ngrok.io"
+let serverAdress = "85.224.20.207:25565"
 // serverAdress = "drawline.herokuapp.com"
-const ws = new WebSocket("wss://" + serverAdress)
-
+const ws = new WebSocket("ws://" + serverAdress)
 ws.onmessage = message => {
     const msg = JSON.parse(message.data);
     const method = msg.method
@@ -9,12 +8,9 @@ ws.onmessage = message => {
 
     console.log(msg)
     if (method == "connect") {
-        const name = (prompt("What do you want to be called?") || unnamed()).slice(0,1000)
-        const room = (prompt("ID of room to connect", "default") || "default").slice(0,1000)
-        send("connect", {
-            name: name,
-            room_id: room
-        })
+        // const name = (prompt("What do you want to be called?") || unnamed()).slice(0,1000)
+        // const room = (prompt("ID of room to connect", "default") || "default").slice(0,1000)
+
     }
     if (method == "text") {
         console.log(msg.data)
