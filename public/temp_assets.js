@@ -1,3 +1,4 @@
+
 var device = "https://i.imgur.com/jqgacQ6.png"
 var kennys = "https://i.imgur.com/wKy3KxM.png"
 var simple = "https://i.imgur.com/O7zXSOu.png" // "https://i.imgur.com/w6Y9XoM.png"
