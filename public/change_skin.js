@@ -2,9 +2,9 @@ current_skin = 0
 // playerImg
 
 function plusDivs(arg=0){
-    getID("skinchoice").selectedIndex = current_skin+1
     current_skin += arg
     current_skin %= playerImg.length
+    // current_skin = current_skin < 0 ? playerImg.length-1 : current_skin
     if (current_skin < 0) current_skin = playerImg.length-1
     for(let i = 0; i < playerImg.length; i++){
         if (i == current_skin){
@@ -13,9 +13,18 @@ function plusDivs(arg=0){
             getID(i).style.display = "none"
         }
     }
+    console.log(current_skin)
+    getID("skinchoice").selectedIndex = current_skin
+
 }
 
 function changeSkin(){
-    current_skin = getID("skinchoice").value-1
+    console.log("hello")
+    console.log(getID("skinchoice").selectedIndex)
     plusDivs()
 }
+
+getID("skinchoice").addEventListener("select", e=>{
+    console.log("wow")
+});
+

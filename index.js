@@ -72,9 +72,7 @@ wsServer.on("request", request => {
     handleMessage(client, JSON.parse(msg.utf8Data))
   })
 
-
   send(connection, "connect", null)
-
 })
 
 // message handling
@@ -159,16 +157,10 @@ function joinRoom(client, room_id){
   console.log(rooms[room_id])
 }
 
-
-
-
-
 function guid(){
   const S4 = () => (((1+Math.random())*0x10000)|0).toString(16).substring(1)
   return((S4() + S4() + "-" + S4() + "-4" + S4().substr(0,3) + "-" + S4() + "-" + S4() + S4() + S4()).toLowerCase())
 }
-
-
 
 
 class Client{
@@ -226,20 +218,6 @@ class Room{
 class Game{
   constructor(hintLength = 2, roundTime = 10000){
     this.players = {}
-    /*
-    {
-      client_id: {
-        client: Client,
-        points: 0
-        playing: true
-      },
-      {...},
-      {...}
-    }
-
-    */
-
-
     this.hintLength = hintLength
     this.shorsestLength = 3
     this.roundTime = roundTime
@@ -287,7 +265,6 @@ class Game{
           })
         })
       })
-
       this.endRound()
     }
   }
@@ -317,11 +294,7 @@ class Game{
     this.hint = this.createHint()
     console.log(`New round, hint is %c${this.hint}`, "color:#fff")
     this.timeout = setTimeout(this.noOneGuessed, this.roundTime)
-
-    
-    // this.broadcast("hint", this.hint)
     this.broadcast("gameData", this.getGameData())
-
   }
   noOneGuessed=()=>{
     this.broadcast("roundResult", {

@@ -102,12 +102,8 @@ function drawPlayers(){
   }
 }
 
-function drawGuess(){
-  fill("red")
-  textSize(25)
-  for(let g = 0; g<guesses.length; g++){
-    text(guesses[g], width, height, 50, 50)
-  }
+function drawGuess(){ return
+
 }
 
 var timer_ = 0
